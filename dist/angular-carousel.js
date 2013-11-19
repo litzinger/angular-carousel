@@ -414,11 +414,13 @@ angular.module('angular-carousel')
           start: function(coords) {
            // console.log('$swipe start');
             /* capture initial event position */
-            if (swiping === 0) {
-              swiping = 1;
-              startX = coords.x;
+            if (this.isMobile()) {
+              if (swiping === 0) {
+                swiping = 1;
+                startX = coords.x;
+              }
+              $document.bind('mouseup', documentMouseUpEvent);
             }
-            $document.bind('mouseup', documentMouseUpEvent);
           },
           move: function (coords) {
             // cancel movement if not inside
@@ -454,6 +456,22 @@ angular.module('angular-carousel')
           end: function (coords) {
             //console.log('$swipe end');
             swipeEnd(coords);
+          },
+          isMobile: function() { 
+            if( navigator.userAgent.match(/Android/i)
+            || navigator.userAgent.match(/webOS/i)
+            || navigator.userAgent.match(/iPhone/i)
+            || navigator.userAgent.match(/iPad/i)
+            || navigator.userAgent.match(/iPod/i)
+            || navigator.userAgent.match(/BlackBerry/i)
+            || navigator.userAgent.match(/Windows Phone/i)
+            ){
+              return true;
+            }
+            else 
+            {
+              return false;
+            }
           }
         });
       //  if (containerWidth===0) updateContainerWidth();
